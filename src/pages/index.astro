@@ -1,0 +1,488 @@
+---
+import { frontmatter as t } from '../content/home.md';
+---
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gilles F. — KI-Facilitator &amp; Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --ink: #1A1424;
+    --violet: #4B2E83;
+    --rose: #B83280;
+    --gold: #B68B3C;
+    --violet-tint: #F5F2FA;
+    --rose-tint: #FBF1F6;
+    --gold-tint: #FBF6EA;
+    --line: #E7E2EE;
+    --max-w: 1180px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: auto; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    font-size: 17px;
+  }
+
+  h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 500; line-height: 1.15; }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 32px; }
+
+  .skip-link {
+    position: absolute; left: -999px; top: 0; background: var(--violet); color: #fff;
+    padding: 12px 20px; z-index: 200;
+  }
+  .skip-link:focus { left: 16px; top: 16px; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--gold); outline-offset: 3px;
+  }
+
+  header.site-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--violet);
+  }
+  .nav-inner {
+    max-width: var(--max-w); margin: 0 auto; padding: 20px 32px;
+    display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  }
+  .nav-name {
+    font-family: 'Playfair Display', serif; font-size: 20px; letter-spacing: 0.02em;
+    color: #fff; border-bottom: 1px solid transparent; transition: color 0.2s ease, border-color 0.2s ease;
+    flex-shrink: 0;
+  }
+  .nav-name:hover { color: var(--gold); border-color: var(--gold); }
+  .nav-links { display: flex; gap: 36px; list-style: none; font-size: 15px; }
+  .nav-links a { position: relative; padding-bottom: 4px; color: rgba(255,255,255,0.92); }
+  .nav-links a::after {
+    content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 1px;
+    background: var(--gold); transition: width 0.25s ease;
+  }
+  .nav-links a:hover, .nav-links a:focus-visible { color: #fff; }
+  .nav-links a:hover::after, .nav-links a:focus-visible::after { width: 100%; }
+
+  .nav-trailing { display: flex; align-items: center; gap: 20px; }
+  .nav-contact { font-size: 14px; color: var(--gold); }
+  .nav-contact:hover { color: #fff; }
+
+  .nav-toggle {
+    display: none; background: none; border: none; color: #fff; cursor: pointer;
+    width: 28px; height: 22px; position: relative; flex-shrink: 0;
+  }
+  .nav-toggle span, .nav-toggle::before, .nav-toggle::after {
+    content: ''; position: absolute; left: 0; width: 100%; height: 2px; background: #fff;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .nav-toggle::before { top: 0; }
+  .nav-toggle span { top: 10px; }
+  .nav-toggle::after { bottom: 0; }
+  .nav-toggle.open::before { transform: translateY(10px) rotate(45deg); }
+  .nav-toggle.open::after { transform: translateY(-10px) rotate(-45deg); }
+  .nav-toggle.open span { opacity: 0; }
+
+  .mobile-menu { display: none; flex-direction: column; background: var(--violet); border-top: 1px solid rgba(255,255,255,0.15); }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a { color: #fff; padding: 16px 32px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 16px; }
+  .mobile-menu a:first-child { border-top: none; }
+
+  @media (max-width: 780px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: block; }
+  }
+
+  .hero {
+    padding: 100px 0 120px;
+    background: linear-gradient(160deg, #FFFFFF 0%, var(--violet-tint) 55%, var(--rose-tint) 100%);
+  }
+  .hero-inner {
+    display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 64px; align-items: center;
+  }
+  .hero-eyebrow {
+    font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 20px; font-weight: 500;
+  }
+  .hero h1 {
+    font-size: clamp(44px, 6vw, 82px);
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .hero .role {
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-family: 'Playfair Display', serif; font-style: italic;
+    color: var(--violet);
+    margin-bottom: 28px;
+  }
+  .hero .signature {
+    font-size: 17px; color: #4a4453; max-width: 480px; margin-bottom: 40px;
+  }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn {
+    display: inline-block; padding: 14px 28px; font-size: 15px; font-weight: 500;
+    border-radius: 2px; transition: all 0.2s ease; cursor: pointer; border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--violet); color: #fff; }
+  .btn-primary:hover { background: #3a2266; }
+  .btn-secondary { border-color: var(--violet); color: var(--violet); background: transparent; }
+  .btn-secondary:hover { background: var(--violet-tint); }
+
+  .portrait-frame {
+    aspect-ratio: 3/4; border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    background: var(--violet-tint);
+    position: relative;
+  }
+  .portrait-frame::before {
+    content: ''; position: absolute; inset: 14px; border: 1px solid var(--gold);
+    opacity: 0.5;
+  }
+  .portrait-label {
+    font-size: 13px; color: var(--violet); text-align: center; padding: 0 20px;
+    font-style: italic;
+  }
+
+  @media (max-width: 860px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .portrait-frame { max-width: 280px; margin: 0 auto; }
+  }
+
+  .section-label {
+    display: inline-block;
+    font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); font-weight: 700; margin-bottom: 18px;
+    padding-bottom: 8px; border-bottom: 2px solid var(--gold);
+  }
+  section { padding: 104px 0; }
+  section h2 {
+    font-size: clamp(34px, 4.2vw, 52px);
+    margin-bottom: 48px; max-width: 680px;
+    color: var(--violet);
+  }
+
+  .ref-section { background: var(--gold-tint); }
+
+  .ref-item {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;
+    padding: 56px 0; border-top: 1px solid var(--line);
+  }
+  .ref-item:last-child { border-bottom: 1px solid var(--line); }
+  .ref-item:nth-child(even) .ref-text { order: 2; }
+  .ref-num {
+    font-family: 'Playfair Display', serif; font-style: italic; color: var(--rose);
+    font-size: 15px; margin-bottom: 12px; display: block;
+  }
+  .ref-item h3 { font-size: 26px; margin-bottom: 14px; color: var(--ink); }
+  .ref-item p { color: #4a4453; margin-bottom: 20px; }
+  .ref-visual {
+    aspect-ratio: 4/3; background: #FFFFFF;
+    border: 1px solid var(--line);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif; font-style: italic; color: var(--rose);
+    font-size: 18px; text-align: center; padding: 20px; gap: 10px;
+    transition: all 0.2s ease;
+  }
+  a.ref-visual { cursor: pointer; }
+  a.ref-visual:hover { background: var(--rose-tint); border-color: var(--rose); }
+  .ref-visual .visit-note {
+    font-family: 'DM Sans', sans-serif; font-style: normal; font-size: 12px;
+    color: var(--violet); letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  span.ref-visual { color: #a89fb0; }
+
+  @media (max-width: 780px) {
+    .ref-item { grid-template-columns: 1fr; }
+    .ref-item:nth-child(even) .ref-text { order: 1; }
+  }
+
+  .about-section { background: var(--violet-tint); }
+  .about-inner { max-width: 640px; margin: 0 auto; text-align: center; }
+  .about-inner h2 { margin: 0 auto 32px; }
+  .about-inner p { font-size: 19px; color: #332c40; text-align: left; }
+  .about-cta { margin-top: 36px; }
+
+  #testimonials { min-height: 100vh; display: flex; align-items: center; }
+  #testimonials .wrap { width: 100%; }
+  .testimonial-track { max-width: 720px; margin: 0 auto; text-align: center; }
+  .t-quote {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: clamp(19px, 2.2vw, 24px); line-height: 1.5; color: var(--ink);
+    margin-bottom: 28px;
+  }
+  .t-quote .lang-note { display: block; font-family: 'DM Sans', sans-serif; font-style: normal; font-size: 13px; color: #8a8194; margin-top: 12px; }
+  .t-author { font-weight: 500; color: var(--violet); }
+  .t-role { font-size: 14px; color: #6d6577; }
+  .t-dots { display: flex; justify-content: center; gap: 10px; margin-top: 40px; }
+  .t-dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--rose); background: transparent; cursor: pointer; padding: 0; }
+  .t-dot.active { background: var(--rose); }
+  .t-placeholder { color: #a89fb0; font-style: italic; }
+
+  .contact-section { background: var(--rose-tint); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  .contact-info p { color: #4a4453; margin-bottom: 28px; max-width: 380px; }
+  .contact-detail { margin-bottom: 10px; font-size: 15px; }
+  .contact-detail .lbl { color: var(--gold); font-weight: 500; margin-right: 8px; }
+
+  form { display: flex; flex-direction: column; gap: 18px; }
+  .field label { display: block; font-size: 14px; margin-bottom: 6px; color: var(--ink); font-weight: 500; }
+  .field .opt { color: #8a8194; font-weight: 400; font-size: 13px; }
+  .field input, .field textarea {
+    width: 100%; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+    border: 1px solid var(--line); background: #fff; border-radius: 2px;
+  }
+  .field textarea { min-height: 120px; resize: vertical; }
+  .submit-btn { align-self: flex-start; margin-top: 8px; }
+
+  @media (max-width: 780px) { .contact-grid { grid-template-columns: 1fr; } }
+
+  footer { padding: 56px 0 40px; border-top: 1px solid var(--line); }
+  .footer-inner { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; }
+  .footer-back-top {
+    font-family: 'Playfair Display', serif; font-size: 20px; color: var(--ink);
+    border-bottom: 1px solid transparent; transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .footer-back-top:hover { color: var(--violet); border-color: var(--violet); }
+  .footer-motto { font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; color: var(--rose); margin-top: 6px; }
+  .footer-meta { font-size: 13px; color: #8a8194; text-align: right; }
+  .footer-meta a { color: #8a8194; }
+  .footer-meta div { margin-bottom: 4px; }
+
+  @media (max-width: 600px) {
+    .footer-inner { flex-direction: column; }
+    .footer-meta { text-align: left; }
+  }
+</style>
+</head>
+<body id="top">
+
+<a href="#main" class="skip-link">{t.skip}</a>
+
+<header class="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-name">Gilles F.</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#referenzen">{t.nav.angebot}</a></li>
+        <li><a href="#ueber-mich">{t.nav.about}</a></li>
+        <li><a href="#testimonials">{t.nav.testimonials}</a></li>
+        <li><a href="#kontakt">{t.nav.contact}</a></li>
+      </ul>
+    </nav>
+    <div class="nav-trailing">
+      <a href={`mailto:${t.contact.email}`} class="nav-contact">{t.nav.email}</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#referenzen">{t.nav.angebot}</a>
+    <a href="#ueber-mich">{t.nav.about}</a>
+    <a href="#testimonials">{t.nav.testimonials}</a>
+    <a href="#kontakt">{t.nav.contact}</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-text">
+        <div class="hero-eyebrow">{t.hero.eyebrow}</div>
+        <h1>Gilles F.</h1>
+        <div class="role">{t.hero.role}</div>
+        <p class="signature" set:html={t.hero.signature}></p>
+        <div class="hero-ctas">
+          <a href="#referenzen" class="btn btn-primary">{t.hero.cta1}</a>
+          <a href="#kontakt" class="btn btn-secondary">{t.hero.cta2}</a>
+        </div>
+      </div>
+      <div class="portrait-frame">
+        <div class="portrait-label" set:html={t.portrait}></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="referenzen" class="ref-section">
+    <div class="wrap">
+      <div class="section-label">{t.angebot.label}</div>
+      <h2>{t.angebot.title}</h2>
+
+      <div class="ref-item">
+        <div class="ref-text">
+          <span class="ref-num">{t.ref1.num}</span>
+          <h3>{t.ref1.title}</h3>
+          <p>{t.ref1.text}</p>
+        </div>
+        <span class="ref-visual" aria-hidden="true">EDU_KI<span class="visit-note">{t.ref1.note}</span></span>
+      </div>
+
+      <div class="ref-item">
+        <div class="ref-text">
+          <span class="ref-num">{t.ref2.num}</span>
+          <h3>{t.ref2.title}</h3>
+          <p>{t.ref2.text}</p>
+        </div>
+        <a href={t.ref2.link} class="ref-visual" target="_blank" rel="noopener">A.I., Ai, Aie!<span class="visit-note">{t.ref2.note}</span></a>
+      </div>
+
+      <div class="ref-item">
+        <div class="ref-text">
+          <span class="ref-num">{t.ref3.num}</span>
+          <h3>{t.ref3.title}</h3>
+          <p>{t.ref3.text}</p>
+        </div>
+        <a href={t.ref3.link} class="ref-visual" target="_blank" rel="noopener">DigiSafe Parents<span class="visit-note">{t.ref3.note}</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="ueber-mich" class="about-section">
+    <div class="wrap about-inner">
+      <div class="section-label">{t.about.label}</div>
+      <h2>{t.about.title}</h2>
+      <p>{t.about.text}</p>
+      <div class="about-cta">
+        <a href={t.about.linkedin_url} class="btn btn-secondary">{t.about.cta}</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials">
+    <div class="wrap testimonial-track">
+      <div class="section-label" style="text-align:center;">{t.testimonials.label}</div>
+      <h2 style="margin:0 auto 48px; text-align:center;">{t.testimonials.title}</h2>
+
+      <div id="t-slide-0">
+        <p class="t-quote">
+          {t.testimonials.quote}
+          <span class="lang-note">{t.testimonials.lang_note}</span>
+        </p>
+        <div class="t-author">{t.testimonials.author}</div>
+        <div class="t-role">{t.testimonials.role}</div>
+      </div>
+
+      <div id="t-slide-1" style="display:none;">
+        <p class="t-quote t-placeholder">{t.testimonials.placeholder}</p>
+      </div>
+      <div id="t-slide-2" style="display:none;">
+        <p class="t-quote t-placeholder">{t.testimonials.placeholder}</p>
+      </div>
+
+      <div class="t-dots">
+        <button class="t-dot active" onclick="showSlide(0)" aria-label="Testimonial 1"></button>
+        <button class="t-dot" onclick="showSlide(1)" aria-label="Testimonial 2"></button>
+        <button class="t-dot" onclick="showSlide(2)" aria-label="Testimonial 3"></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakt" class="contact-section">
+    <div class="wrap contact-grid">
+      <div class="contact-info">
+        <div class="section-label">{t.contact.label}</div>
+        <h2 set:html={t.contact.title}></h2>
+        <p>{t.contact.text}</p>
+        <div class="contact-detail"><span class="lbl">{t.contact.email_label}</span>{t.contact.email}</div>
+        <div class="contact-detail"><span class="lbl">{t.contact.linkedin_label}</span>{t.contact.linkedin}</div>
+      </div>
+      <form>
+        <div class="field">
+          <label for="name">{t.form.name}</label>
+          <input type="text" id="name" required>
+        </div>
+        <div class="field">
+          <label for="email">{t.form.email}</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="field">
+          <label for="org">{t.form.org} <span class="opt">{t.form.org_optional}</span></label>
+          <input type="text" id="org">
+        </div>
+        <div class="field">
+          <label for="msg">{t.form.message}</label>
+          <textarea id="msg" required></textarea>
+        </div>
+        <button type="button" class="btn btn-primary submit-btn">{t.form.submit}</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <a href="#top" class="footer-back-top" aria-label="Nach oben scrollen">Gilles F.</a>
+      <div class="footer-motto">{t.footer.motto}</div>
+    </div>
+    <div class="footer-meta">
+      <div>E-Mail: {t.footer.email}</div>
+      <div>LinkedIn: {t.footer.linkedin}</div>
+      <div><a href="#">{t.footer.impressum}</a></div>
+      <div>{t.footer.copyright}</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  function smoothScrollTo(targetY, duration) {
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    const startTime = performance.now();
+    function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + distance * easeInOutCubic(progress));
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function (e) {
+      const id = this.getAttribute('href').slice(1);
+      const target = id === '' || id === 'top' ? document.body : document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      const offset = target === document.body ? 0 : target.getBoundingClientRect().top + window.scrollY - 70;
+      smoothScrollTo(offset, 1100);
+    });
+  });
+
+  function showSlide(i) {
+    for (let n = 0; n < 3; n++) {
+      document.getElementById('t-slide-' + n).style.display = (n === i) ? 'block' : 'none';
+    }
+    document.querySelectorAll('.t-dot').forEach((d, idx) => { d.classList.toggle('active', idx === i); });
+  }
+</script>
+
+</body>
+</html>
