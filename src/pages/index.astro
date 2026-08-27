@@ -111,23 +111,26 @@ import { frontmatter as t } from '../content/home.md';
   .hero-inner {
     display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 64px; align-items: center;
   }
-  .hero-eyebrow {
-    font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--rose); margin-bottom: 20px; font-weight: 500;
-  }
   .hero h1 {
-    font-size: clamp(44px, 6vw, 82px);
+    font-size: clamp(38px, 5.2vw, 68px);
     color: var(--ink);
-    margin-bottom: 8px;
+    margin-bottom: 14px;
   }
-  .hero .role {
-    font-size: clamp(20px, 2.4vw, 28px);
-    font-family: 'Playfair Display', serif; font-style: italic;
-    color: var(--violet);
-    margin-bottom: 28px;
+  .hero .audience {
+    font-size: 18px; color: #4a4453; margin-bottom: 30px;
   }
+  .hero-tags { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+  .hero-tags a {
+    border: 1px solid var(--rose); color: var(--rose); background: #fff;
+    font-size: 14.5px; font-weight: 500; padding: 10px 20px; border-radius: 2px;
+    transition: all 0.2s ease;
+  }
+  .hero-tags a:hover { background: var(--rose); color: #fff; }
+  .hero-tags .arrow { opacity: 0.65; }
+  .hero .identity { font-size: 15px; color: #6b6577; margin-bottom: 26px; }
   .hero .signature {
-    font-size: 17px; color: #4a4453; max-width: 480px; margin-bottom: 40px;
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 17px; color: var(--violet); max-width: 480px; margin-top: 28px;
   }
   .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
   .btn {
@@ -186,6 +189,9 @@ import { frontmatter as t } from '../content/home.md';
   }
   .ref-item h3 { font-size: 26px; margin-bottom: 14px; color: var(--ink); }
   .ref-item p { color: #4a4453; margin-bottom: 20px; }
+  .ref-item .ref-bonus {
+    font-size: 14.5px; color: var(--gold); font-style: italic; margin-top: -8px;
+  }
   .ref-visual {
     aspect-ratio: 4/3; background: #FFFFFF;
     border: 1px solid var(--line);
@@ -210,7 +216,11 @@ import { frontmatter as t } from '../content/home.md';
   .about-section { background: var(--violet-tint); }
   .about-inner { max-width: 640px; margin: 0 auto; text-align: center; }
   .about-inner h2 { margin: 0 auto 32px; }
-  .about-inner p { font-size: 19px; color: #332c40; text-align: left; }
+  .about-inner p { font-size: 19px; color: #332c40; text-align: left; margin-bottom: 22px; }
+  .about-triptych {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    color: var(--rose); font-size: 17px; text-align: left; margin-top: 32px;
+  }
   .about-cta { margin-top: 36px; }
 
   #testimonials { min-height: 100vh; display: flex; align-items: center; }
@@ -231,14 +241,18 @@ import { frontmatter as t } from '../content/home.md';
 
   .contact-section { background: var(--rose-tint); }
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
-  .contact-info p { color: #4a4453; margin-bottom: 28px; max-width: 380px; }
+  .contact-info p { color: #4a4453; margin-bottom: 20px; max-width: 380px; }
+  .contact-reassurance {
+    font-size: 14.5px; color: var(--violet); font-weight: 500;
+    margin-bottom: 24px; max-width: 380px;
+  }
   .contact-detail { margin-bottom: 10px; font-size: 15px; }
   .contact-detail .lbl { color: var(--gold); font-weight: 500; margin-right: 8px; }
 
   form { display: flex; flex-direction: column; gap: 18px; }
   .field label { display: block; font-size: 14px; margin-bottom: 6px; color: var(--ink); font-weight: 500; }
   .field .opt { color: #8a8194; font-weight: 400; font-size: 13px; }
-  .field input, .field textarea {
+  .field input, .field textarea, .field select {
     width: 100%; padding: 12px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px;
     border: 1px solid var(--line); background: #fff; border-radius: 2px;
   }
@@ -298,14 +312,18 @@ import { frontmatter as t } from '../content/home.md';
   <section class="hero">
     <div class="wrap hero-inner">
       <div class="hero-text">
-        <div class="hero-eyebrow">{t.hero.eyebrow}</div>
-        <h1>Gilles F.</h1>
-        <div class="role">{t.hero.role}</div>
-        <p class="signature" set:html={t.hero.signature}></p>
-        <div class="hero-ctas">
-          <a href="#referenzen" class="btn btn-primary">{t.hero.cta1}</a>
-          <a href="#kontakt" class="btn btn-secondary">{t.hero.cta2}</a>
+        <h1>{t.hero.h1}</h1>
+        <p class="audience">{t.hero.audience}</p>
+        <div class="hero-tags">
+          <a href="#ref-schulen">{t.tags.tag1} <span class="arrow">→</span></a>
+          <a href="#ref-nachhilfe">{t.tags.tag2} <span class="arrow">→</span></a>
+          <a href="#ref-kmu">{t.tags.tag3} <span class="arrow">→</span></a>
         </div>
+        <p class="identity">{t.hero.identity}</p>
+        <div class="hero-ctas">
+          <a href="#kontakt" class="btn btn-primary">{t.hero.cta}</a>
+        </div>
+        <p class="signature">{t.hero.signature}</p>
       </div>
       <div class="portrait-frame">
         <div class="portrait-label" set:html={t.portrait}></div>
@@ -318,31 +336,34 @@ import { frontmatter as t } from '../content/home.md';
       <div class="section-label">{t.angebot.label}</div>
       <h2>{t.angebot.title}</h2>
 
-      <div class="ref-item">
+      <div class="ref-item" id="ref-schulen">
         <div class="ref-text">
           <span class="ref-num">{t.ref1.num}</span>
           <h3>{t.ref1.title}</h3>
           <p>{t.ref1.text}</p>
+          <p class="ref-bonus">{t.ref1.bonus}</p>
         </div>
-        <span class="ref-visual" aria-hidden="true">EDU_KI<span class="visit-note">{t.ref1.note}</span></span>
+        <span class="ref-visual" aria-hidden="true">{t.ref1.visual_label}<span class="visit-note">{t.ref1.note}</span></span>
       </div>
 
-      <div class="ref-item">
+      <div class="ref-item" id="ref-nachhilfe">
         <div class="ref-text">
           <span class="ref-num">{t.ref2.num}</span>
           <h3>{t.ref2.title}</h3>
           <p>{t.ref2.text}</p>
+          <p class="ref-bonus">{t.ref2.bonus}</p>
         </div>
-        <a href={t.ref2.link} class="ref-visual" target="_blank" rel="noopener">A.I., Ai, Aie!<span class="visit-note">{t.ref2.note}</span></a>
+        <span class="ref-visual" aria-hidden="true">{t.ref2.visual_label}<span class="visit-note">{t.ref2.note}</span></span>
       </div>
 
-      <div class="ref-item">
+      <div class="ref-item" id="ref-kmu">
         <div class="ref-text">
           <span class="ref-num">{t.ref3.num}</span>
           <h3>{t.ref3.title}</h3>
           <p>{t.ref3.text}</p>
+          <p class="ref-bonus">{t.ref3.bonus}</p>
         </div>
-        <a href={t.ref3.link} class="ref-visual" target="_blank" rel="noopener">DigiSafe Parents<span class="visit-note">{t.ref3.note}</span></a>
+        <a href={t.ref3.link} class="ref-visual" target="_blank" rel="noopener">{t.ref3.visual_label}<span class="visit-note">{t.ref3.note}</span></a>
       </div>
     </div>
   </section>
@@ -351,7 +372,10 @@ import { frontmatter as t } from '../content/home.md';
     <div class="wrap about-inner">
       <div class="section-label">{t.about.label}</div>
       <h2>{t.about.title}</h2>
-      <p>{t.about.text}</p>
+      <p>{t.about.p1}</p>
+      <p>{t.about.p2}</p>
+      <p>{t.about.p3}</p>
+      <p class="about-triptych">— {t.about.triptych}</p>
       <div class="about-cta">
         <a href={t.about.linkedin_url} class="btn btn-secondary">{t.about.cta}</a>
       </div>
@@ -363,26 +387,21 @@ import { frontmatter as t } from '../content/home.md';
       <div class="section-label" style="text-align:center;">{t.testimonials.label}</div>
       <h2 style="margin:0 auto 48px; text-align:center;">{t.testimonials.title}</h2>
 
-      <div id="t-slide-0">
-        <p class="t-quote">
-          {t.testimonials.quote}
-          <span class="lang-note">{t.testimonials.lang_note}</span>
-        </p>
-        <div class="t-author">{t.testimonials.author}</div>
-        <div class="t-role">{t.testimonials.role}</div>
-      </div>
-
-      <div id="t-slide-1" style="display:none;">
-        <p class="t-quote t-placeholder">{t.testimonials.placeholder}</p>
-      </div>
-      <div id="t-slide-2" style="display:none;">
-        <p class="t-quote t-placeholder">{t.testimonials.placeholder}</p>
-      </div>
+      {t.testimonials.items.map((item, i) => (
+        <div id={`t-slide-${i}`} style={i === 0 ? '' : 'display:none;'}>
+          <p class="t-quote">
+            {item.quote}
+            <span class="lang-note">{item.lang_note}</span>
+          </p>
+          <div class="t-author">{item.author}</div>
+          <div class="t-role">{item.role}</div>
+        </div>
+      ))}
 
       <div class="t-dots">
-        <button class="t-dot active" onclick="showSlide(0)" aria-label="Testimonial 1"></button>
-        <button class="t-dot" onclick="showSlide(1)" aria-label="Testimonial 2"></button>
-        <button class="t-dot" onclick="showSlide(2)" aria-label="Testimonial 3"></button>
+        {t.testimonials.items.map((_, i) => (
+          <button class={`t-dot ${i === 0 ? 'active' : ''}`} onclick={`showSlide(${i})`} aria-label={`Testimonial ${i + 1}`}></button>
+        ))}
       </div>
     </div>
   </section>
@@ -393,6 +412,7 @@ import { frontmatter as t } from '../content/home.md';
         <div class="section-label">{t.contact.label}</div>
         <h2 set:html={t.contact.title}></h2>
         <p>{t.contact.text}</p>
+        <p class="contact-reassurance">{t.contact.reassurance}</p>
         <div class="contact-detail"><span class="lbl">{t.contact.email_label}</span>{t.contact.email}</div>
         <div class="contact-detail"><span class="lbl">{t.contact.linkedin_label}</span>{t.contact.linkedin}</div>
       </div>
@@ -408,6 +428,16 @@ import { frontmatter as t } from '../content/home.md';
         <div class="field">
           <label for="org">{t.form.org} <span class="opt">{t.form.org_optional}</span></label>
           <input type="text" id="org">
+        </div>
+        <div class="field">
+          <label for="audience">{t.form.audience_label}</label>
+          <select id="audience" required>
+            <option value="" disabled selected>{t.form.audience_placeholder}</option>
+            <option value="schule">{t.form.audience_option1}</option>
+            <option value="nachhilfe">{t.form.audience_option2}</option>
+            <option value="unternehmen">{t.form.audience_option3}</option>
+            <option value="sonstiges">{t.form.audience_option4}</option>
+          </select>
         </div>
         <div class="field">
           <label for="msg">{t.form.message}</label>
@@ -429,7 +459,7 @@ import { frontmatter as t } from '../content/home.md';
     <div class="footer-meta">
       <div>E-Mail: {t.footer.email}</div>
       <div>LinkedIn: {t.footer.linkedin}</div>
-      <div><a href="#">{t.footer.impressum}</a></div>
+      <div><a href={t.footer.impressum_url}>{t.footer.impressum}</a></div>
       <div>{t.footer.copyright}</div>
     </div>
   </div>
@@ -477,9 +507,9 @@ import { frontmatter as t } from '../content/home.md';
   });
 
   function showSlide(i) {
-    for (let n = 0; n < 3; n++) {
-      document.getElementById('t-slide-' + n).style.display = (n === i) ? 'block' : 'none';
-    }
+    document.querySelectorAll('[id^="t-slide-"]').forEach((el, n) => {
+      el.style.display = (n === i) ? 'block' : 'none';
+    });
     document.querySelectorAll('.t-dot').forEach((d, idx) => { d.classList.toggle('active', idx === i); });
   }
 </script>
