@@ -110,8 +110,8 @@ footer:
   motto: "Ermöglichen, Verbinden, Erkunden."
   impressum: "Impressum"
   impressum_url: "/impressum"
-  email: "gilles.forestier@icloud.com"
-  linkedin: "https://www.linkedin.com/in/gilles-forestier-04261b1"
+  email: mailto: gilles.forestier@icloud.com
+  linkedin: https://www.linkedin.com/in/gilles-forestier-04261b1
   copyright: "© Gilles Forestier 2026"
 ---
 
