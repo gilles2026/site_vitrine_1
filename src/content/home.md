@@ -11,7 +11,7 @@ nav:
 hero:
   h1: "KI verstehen & anwenden"
   audience: "Für Schulen, Schüler:innen und Unternehmen in Wien."
-  identity: "Gilles F. — KI-Facilitator & Trainer"
+  identity: "Gilles Forestier — KI-Facilitator & Trainer"
   signature: "Die KI als Verstärker: Ihrer Kreativität, Ihrer Wirkung, Ihres Lernens."
   cta: "Kontakt aufnehmen"
 
@@ -110,9 +110,9 @@ footer:
   motto: "Ermöglichen, Verbinden, Erkunden."
   impressum: "Impressum"
   impressum_url: "/impressum"
-  email: "à préciser"
-  linkedin: "à préciser"
-  copyright: "© Gilles F. 2026"
+  email: "gilles.forestier@icloud.com"
+  linkedin: "https://www.linkedin.com/in/gilles-forestier-04261b1"
+  copyright: "© Gilles Forestier 2026"
 ---
 
 Ce fichier contient tous les textes affichés sur le site.
