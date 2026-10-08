@@ -1,5 +1,15 @@
 ---
 import { frontmatter as t } from '../content/home.md';
+const D = {
+  ui: t.wizard, profiles: t.profiles, themes: t.themes, formats: t.formats, for_labels: t.for_labels,
+  angebot: t.angebot, form: t.form,
+  contact: { label: t.contact.label, title: t.contact.title, reassurance: t.contact.reassurance },
+  bildung: {
+    schulen: { card: t.angebot.card_schulen, sub: t.ref1.title, num: t.ref1.num, title: t.ref1.title, text: t.ref1.text, bonus: t.ref1.bonus, visual_label: t.ref1.visual_label, note: t.ref1.note },
+    eltern: { card: t.angebot.card_eltern, sub: t.ref2.title, num: t.ref2.num, title: t.ref2.title, text: t.ref2.text, bonus: t.ref2.bonus, visual_label: t.ref2.visual_label, note: t.ref2.note }
+  }
+};
+const dataJson = JSON.stringify(D).replace(/</g, '\\u003c');
 ---
 <!DOCTYPE html>
 <html lang="de">
@@ -10,8 +20,9 @@ import { frontmatter as t } from '../content/home.md';
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
+<style is:global>
   :root {
+    --muted: #6b6577;
     --bg: #FFFFFF;
     --ink: #1A1424;
     --violet: #4B2E83;
@@ -277,6 +288,131 @@ import { frontmatter as t } from '../content/home.md';
     .footer-inner { flex-direction: column; }
     .footer-meta { text-align: left; }
   }
+
+  /* ================= V3 : tri par profil, pages dédiées, séquence horizontale ================= */
+  [hidden] { display: none !important; }
+  button, input, select, textarea { font-family: inherit; font-size: inherit; }
+  .muted { color: var(--muted); }
+  .sub { margin: 0 0 16px; font-size: 15px; color: var(--muted); }
+  .hint { font-size: 15px; color: var(--muted); margin: 16px 0 0; }
+  .small { font-size: 13px; color: var(--muted); }
+  .gold-section { background: var(--gold-tint); }
+
+  /* tags du hero (boutons) */
+  .hero-tags button {
+    border: 1px solid var(--rose); color: var(--rose); background: #fff;
+    font-size: 14.5px; font-weight: 500; padding: 10px 20px; border-radius: 2px; min-height: 44px;
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .hero-tags button:hover { background: var(--rose); color: #fff; }
+  .hero-tags button[aria-pressed="true"] { border-width: 2px; padding: 9px 19px; font-weight: 700; background: var(--rose-tint); }
+  .hero-tags button[aria-pressed="true"]:hover { background: var(--rose); color: #fff; }
+
+  /* cartes de tri */
+  .pcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .pcard { text-align: left; border: 2px solid #E3D9BF; background: #fff; padding: 18px 20px; border-radius: 2px; color: var(--ink); cursor: pointer; transition: background .3s, border-color .3s; }
+  .pcard:hover { border-color: var(--gold); }
+  .pcard.sel { border-color: var(--gold); background: var(--gold-tint); }
+  .pcard.sel strong::after { content: ' ✓'; color: var(--gold); }
+  .pcard strong { display: block; font-family: 'Playfair Display', serif; font-weight: 500; font-size: 21px; color: var(--violet); }
+  .pcard span { font-size: 14px; color: var(--muted); }
+
+  /* transitions accueil <-> page */
+  .leaving { opacity: 0; transform: translateX(-48px); transition: opacity 500ms ease, transform 500ms ease; }
+  .entering { animation: enter 600ms cubic-bezier(.65,0,.35,1); }
+  @keyframes enter { from { opacity: 0; transform: translateX(48px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .leaving { transition: none; } .entering { animation: none; } }
+
+  /* 1 sujet = 1 écran (bureau uniquement) */
+  @media (min-width: 961px) and (min-height: 600px) {
+    #home > section { min-height: calc(100vh - var(--nav-h, 66px)); display: flex; flex-direction: column; justify-content: center; }
+    #home > section > .wrap { width: 100%; }
+  }
+
+  /* page profil */
+  .phead { background: var(--gold-tint); padding: 36px 0 28px; }
+  .back { display: block; width: fit-content; color: var(--violet); text-decoration: underline; font-size: 15px; margin-bottom: 16px; min-height: 32px; }
+  .phead h1 { font-size: clamp(32px, 4.4vw, 52px); margin: 8px 0 10px; }
+  .phead .aud { font-size: 18px; color: #4a4453; }
+  .pstage { background: var(--gold-tint); padding: 24px 0 72px; }
+  .pinfo { background: var(--gold-tint); padding: 36px 0 80px; }
+  .pinfo h1 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 18px; }
+  .ref { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .ref p { color: #4a4453; margin-bottom: 20px; }
+  .ref .bonus { font-size: 14.5px; color: var(--gold); font-style: italic; }
+  .ref .ref-visual { aspect-ratio: 4/3; background: #fff; border: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-style: italic; color: var(--rose); font-size: 18px; text-align: center; padding: 20px; gap: 10px; }
+  .ref .ref-visual .visit-note { font-family: 'DM Sans', sans-serif; font-style: normal; font-size: 12px; color: var(--violet); letter-spacing: 0.06em; text-transform: uppercase; }
+  @media (max-width: 780px) { .ref { grid-template-columns: 1fr; gap: 28px; } }
+  .pre { border: 1px solid var(--gold); padding: 10px 14px; font-size: 14px; background: #fff; margin-bottom: 14px; }
+
+  /* séquence horizontale */
+  .stage { border: 1px solid var(--line); border-radius: 2px; background: #fff; }
+  .steps { display: flex; border-bottom: 1px solid var(--line); }
+  .steps button { flex: 1; background: none; border: 0; border-bottom: 4px solid transparent; padding: 14px 8px 10px; font-size: 14px; color: var(--muted); min-height: 48px; cursor: pointer; }
+  .steps button.done { color: var(--violet); }
+  .steps button[aria-current="step"] { border-bottom-color: var(--gold); color: var(--violet); font-weight: 700; }
+  .vp { overflow: hidden; }
+  .track { display: flex; align-items: flex-start; }
+  .slide { flex: 0 0 100%; min-width: 0; padding: 24px 28px 28px; }
+  .slide h3 { font-size: 24px; color: var(--violet); margin-bottom: 6px; }
+  .navrow { display: flex; gap: 12px; justify-content: space-between; margin-top: 22px; flex-wrap: wrap; }
+  @media (max-width: 640px) { .slide { padding: 18px 16px 22px; } .steps button { font-size: 12px; } }
+  .intro { margin: 0 0 12px; }
+  .ticks { display: flex; flex-direction: column; gap: 10px; }
+  .tick { display: flex; text-align: left; width: 100%; border: 1px solid var(--line); background: #fff; border-radius: 2px; padding: 14px 18px; color: var(--ink); min-height: 44px; font-size: 16px; cursor: pointer; transition: background .25s, border-color .25s; }
+  .tick:hover { border-color: var(--gold); }
+  .tick[aria-pressed="true"] { border: 2px solid var(--gold); padding: 13px 17px; background: var(--gold-tint); }
+  .tick .to { display: block; font-size: 13px; color: var(--rose); font-weight: 700; margin-top: 2px; }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .theme, .fmt { border: 1px solid var(--line); background: #fff; border-radius: 2px; padding: 18px 20px; text-align: left; color: var(--ink); width: 100%; line-height: inherit; cursor: pointer; }
+  .theme h4, .fmt h4 { font-family: 'Playfair Display', serif; font-weight: 500; line-height: 1.2; }
+  .theme .num { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--rose); }
+  .theme h4 { font-size: 20px; margin: 2px 0 6px; }
+  .theme p { margin: 0; font-size: 15.5px; }
+  .theme .for { margin-top: 10px; font-size: 13px; color: var(--muted); }
+  .theme[aria-pressed="true"], .fmt[aria-pressed="true"] { border: 2px solid var(--gold); padding: 17px 19px; background: var(--gold-tint); }
+  .check { float: right; font-size: 13px; font-weight: 700; color: var(--violet); }
+  .fmt .letter { display: inline-flex; width: 32px; height: 32px; border: 2px solid var(--violet); border-radius: 50%; align-items: center; justify-content: center; font-weight: 700; color: var(--violet); margin-bottom: 6px; }
+  .fmt h4 { font-size: 18px; margin: 0 0 2px; }
+  .fmt .meta { font-size: 14px; color: var(--muted); margin: 0 0 6px; }
+  .fmt p { margin: 0; font-size: 15px; }
+  .more { background: none; border: 0; color: var(--violet); text-decoration: underline; font-size: 15px; padding: 10px 0; min-height: 44px; cursor: pointer; }
+
+  /* Ihre Auswahl (sous la séquence) */
+  .sum { margin-top: 32px; border: 2px solid var(--violet); padding: 24px 26px; border-radius: 2px; background: #fff; }
+  .sum h3 { font-size: 24px; color: var(--violet); margin-bottom: 12px; }
+  .sum p { margin: 0 0 6px; }
+  .sum .row { display: flex; flex-wrap: wrap; gap: 16px 40px; align-items: flex-start; }
+  .sum .col { flex: 1 1 320px; min-width: 0; }
+  .sum .cta { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; margin-top: 14px; }
+  .quote { border-left: 3px solid var(--gold); padding-left: 14px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 16px; }
+  .quote small { display: block; font-family: 'DM Sans', sans-serif; font-style: normal; font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* témoignages : flèches, hauteur fixe, glissement 1100 ms */
+  .tcar { text-align: center; }
+  .tcar h2 { margin: 0 auto 40px; }
+  .tview { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; gap: 8px; max-width: 1000px; margin: 0 auto; }
+  .tvp { overflow: hidden; }
+  .ttrack { display: flex; }
+  .tslide { flex: 0 0 100%; display: flex; flex-direction: column; justify-content: center; padding: 0 12px; }
+  .tq { max-width: 760px; margin: 0 auto 20px; text-align: center; font-family: 'Playfair Display', serif; font-size: clamp(19px, 2.2vw, 24px); line-height: 1.5; }
+  .tq small { display: block; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .tarrow { width: 48px; height: 72px; background: none; border: 0; padding: 0; color: var(--violet); display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 2px; }
+  .tarrow:hover { color: var(--rose); }
+  .tarrow svg { width: 30px; height: 56px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .dots { display: flex; justify-content: center; gap: 10px; margin-top: 28px; }
+  .dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--violet); background: #fff; padding: 0; cursor: pointer; }
+  .dot[aria-current="true"] { background: var(--violet); }
+  @media (max-width: 640px) { .tview { grid-template-columns: 36px minmax(0, 1fr) 36px; gap: 2px; } .tarrow { width: 36px; } .tarrow svg { width: 20px; height: 40px; } .tslide { padding: 0 4px; } }
+
+  /* barre mobile de la sélection */
+  .mbar { display: none; }
+  @media (max-width: 960px) {
+    .mbar.on { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 90; background: #fff; border-top: 2px solid var(--violet); padding: 10px 16px; gap: 12px; align-items: center; justify-content: space-between; font-size: 14px; }
+    .mbar .btn { padding: 10px 18px; }
+    body.has-mbar footer { padding-bottom: 110px; }
+  }
 </style>
 </head>
 <body id="top">
@@ -308,16 +444,16 @@ import { frontmatter as t } from '../content/home.md';
 </header>
 
 <main id="main">
+<div id="home">
 
   <section class="hero">
     <div class="wrap hero-inner">
       <div class="hero-text">
         <h1>{t.hero.h1}</h1>
         <p class="audience">{t.hero.audience}</p>
-        <div class="hero-tags">
-          <a href="#ref-schulen">{t.tags.tag1} <span class="arrow">→</span></a>
-          <a href="#ref-nachhilfe">{t.tags.tag2} <span class="arrow">→</span></a>
-          <a href="#ref-kmu">{t.tags.tag3} <span class="arrow">→</span></a>
+        <div class="hero-tags" id="tags">
+          <button type="button" class="hero-tag" data-target="bildung">{t.tags.bildung} <span class="arrow">→</span></button>
+          <button type="button" class="hero-tag" data-target="biz">{t.tags.biz} <span class="arrow">→</span></button>
         </div>
         <p class="identity">{t.hero.identity}</p>
         <div class="hero-ctas">
@@ -331,40 +467,9 @@ import { frontmatter as t } from '../content/home.md';
     </div>
   </section>
 
-  <section id="referenzen" class="ref-section">
+  <section id="referenzen" class="gold-section">
     <div class="wrap">
-      <div class="section-label">{t.angebot.label}</div>
-      <h2>{t.angebot.title}</h2>
-
-      <div class="ref-item" id="ref-schulen">
-        <div class="ref-text">
-          <span class="ref-num">{t.ref1.num}</span>
-          <h3>{t.ref1.title}</h3>
-          <p>{t.ref1.text}</p>
-          <p class="ref-bonus">{t.ref1.bonus}</p>
-        </div>
-        <span class="ref-visual" aria-hidden="true">{t.ref1.visual_label}<span class="visit-note">{t.ref1.note}</span></span>
-      </div>
-
-      <div class="ref-item" id="ref-nachhilfe">
-        <div class="ref-text">
-          <span class="ref-num">{t.ref2.num}</span>
-          <h3>{t.ref2.title}</h3>
-          <p>{t.ref2.text}</p>
-          <p class="ref-bonus">{t.ref2.bonus}</p>
-        </div>
-        <span class="ref-visual" aria-hidden="true">{t.ref2.visual_label}<span class="visit-note">{t.ref2.note}</span></span>
-      </div>
-
-      <div class="ref-item" id="ref-kmu">
-        <div class="ref-text">
-          <span class="ref-num">{t.ref3.num}</span>
-          <h3>{t.ref3.title}</h3>
-          <p>{t.ref3.text}</p>
-          <p class="ref-bonus">{t.ref3.bonus}</p>
-        </div>
-        <a href={t.ref3.link} class="ref-visual" target="_blank" rel="noopener">{t.ref3.visual_label}<span class="visit-note">{t.ref3.note}</span></a>
-      </div>
+      <div id="blk"></div>
     </div>
   </section>
 
@@ -383,25 +488,25 @@ import { frontmatter as t } from '../content/home.md';
   </section>
 
   <section id="testimonials">
-    <div class="wrap testimonial-track">
-      <div class="section-label" style="text-align:center;">{t.testimonials.label}</div>
-      <h2 style="margin:0 auto 48px; text-align:center;">{t.testimonials.title}</h2>
-
-      {t.testimonials.items.map((item, i) => (
-        <div id={`t-slide-${i}`} style={i === 0 ? '' : 'display:none;'}>
-          <p class="t-quote">
-            {item.quote}
-            <span class="lang-note">{item.lang_note}</span>
-          </p>
-          <div class="t-author">{item.author}</div>
-          <div class="t-role">{item.role}</div>
+    <div class="wrap tcar">
+      <div class="section-label">{t.testimonials.label}</div>
+      <h2>{t.testimonials.title}</h2>
+      <div class="tview">
+        <button class="tarrow" id="tprev" type="button" aria-label={t.wizard.prev_testimonial}><svg viewBox="0 0 30 56" aria-hidden="true"><polyline points="26,3 4,28 26,53"/></svg></button>
+        <div class="tvp">
+          <div class="ttrack" id="ttrack">
+            {t.testimonials.items.map((item) => (
+              <div class="tslide">
+                <p class="tq">«{item.quote}»<small>{item.lang_note}</small></p>
+                <div><strong>{item.author}</strong> · <span class="muted">{item.role}</span></div>
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-
-      <div class="t-dots">
-        {t.testimonials.items.map((_, i) => (
-          <button class={`t-dot ${i === 0 ? 'active' : ''}`} onclick={`showSlide(${i})`} aria-label={`Testimonial ${i + 1}`}></button>
-        ))}
+        <button class="tarrow" id="tnext" type="button" aria-label={t.wizard.next_testimonial}><svg viewBox="0 0 30 56" aria-hidden="true"><polyline points="4,3 26,28 4,53"/></svg></button>
+      </div>
+      <div class="dots" id="tdots">
+        {t.testimonials.items.map((_, i) => (<button class="dot" type="button" aria-label={`Testimonial ${i + 1}`}></button>))}
       </div>
     </div>
   </section>
@@ -448,6 +553,8 @@ import { frontmatter as t } from '../content/home.md';
     </div>
   </section>
 
+</div>
+<div id="ppage" hidden></div>
 </main>
 
 <footer>
@@ -457,61 +564,296 @@ import { frontmatter as t } from '../content/home.md';
       <div class="footer-motto">{t.footer.motto}</div>
     </div>
     <div class="footer-meta">
-      <div>E-Mail: {t.footer.email}</div>
-      <div>LinkedIn: {t.footer.linkedin}</div>
+      <div>E-Mail: <a href={`mailto:${t.footer.email}`}>{t.footer.email}</a></div>
+      <div>LinkedIn: <a href={t.footer.linkedin} target="_blank" rel="noopener">{t.footer.linkedin.replace('https://www.', '')}</a></div>
       <div><a href={t.footer.impressum_url}>{t.footer.impressum}</a></div>
       <div>{t.footer.copyright}</div>
     </div>
   </div>
 </footer>
 
+<div class="mbar" id="mbar"></div>
+
+<script type="application/json" id="app-data" set:html={dataJson}></script>
+
 <script>
-  const navToggle = document.getElementById('navToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  navToggle.addEventListener('click', () => {
-    const isOpen = mobileMenu.classList.toggle('open');
-    navToggle.classList.toggle('open', isOpen);
-    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  });
-  mobileMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      navToggle.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
+  (function () {
+    var D = JSON.parse(document.getElementById('app-data').textContent);
+    var UI = D.ui, PROFILES = D.profiles, THEMES = D.themes, FORMATS = D.formats, FOR_LABEL = D.for_labels, BILDUNG = D.bildung, ANG = D.angebot, FORM = D.form;
+    var DUR = 1100, EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
+    var FULL = '(min-width:961px) and (min-height:600px)';
 
-  function smoothScrollTo(targetY, duration) {
-    const startY = window.scrollY;
-    const distance = targetY - startY;
-    const startTime = performance.now();
-    function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-    function step(now) {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      window.scrollTo(0, startY + distance * easeInOutCubic(progress));
-      if (progress < 1) requestAnimationFrame(step);
+    function fresh() { return { target: 'bildung', profile: null, ticks: {}, themes: {}, fmts: {}, more: false, step: 0, testi: 0 }; }
+    var S = fresh(), P = null, going = false;
+    var $ = function (id) { return document.getElementById(id); };
+    function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; }
+    function btn(cls, html, fn) { var b = el('button', cls, html); b.type = 'button'; b.onclick = fn; return b; }
+    function T(s, n) { return String(s).replace('{n}', n); }
+    function selThemes() { return THEMES.filter(function (t) { return S.themes[t.id]; }); }
+    function selFmts() { return FORMATS.filter(function (f) { return S.fmts[f.id]; }); }
+    function ctxText() {
+      var t = selThemes(), f = selFmts();
+      return UI.ctx_profile + ' ' + PROFILES[S.profile].label +
+        (t.length ? ' — ' + UI.ctx_themes + ' ' + t.map(function (x) { return x.title; }).join(', ') : '') +
+        (f.length ? ' — ' + UI.ctx_formats + ' ' + f.map(function (x) { return x.name; }).join(', ') : '') + '.';
     }
-    requestAnimationFrame(step);
-  }
 
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', function (e) {
-      const id = this.getAttribute('href').slice(1);
-      const target = id === '' || id === 'top' ? document.body : document.getElementById(id);
-      if (!target) return;
+    /* ---------- défilement (identique à la vitrine : 1100 ms, easeInOutCubic) ---------- */
+    function smoothScrollTo(targetY, duration) {
+      var startY = window.scrollY, distance = targetY - startY, startTime = performance.now();
+      function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+      function step(now) { var p = Math.min((now - startTime) / duration, 1); window.scrollTo(0, startY + distance * ease(p)); if (p < 1) requestAnimationFrame(step); }
+      requestAnimationFrame(step);
+    }
+    function navH() { var n = document.querySelector('.site-nav'); return n ? n.offsetHeight : 66; }
+    function navOff() { return window.matchMedia(FULL).matches ? navH() : 70; }
+    function setNavVar() { document.documentElement.style.setProperty('--nav-h', navH() + 'px'); }
+    function scrollToEl(node, instant) {
+      if (!node) return;
+      var y = node.getBoundingClientRect().top + window.scrollY - navOff();
+      if (instant) window.scrollTo(0, y); else smoothScrollTo(y, DUR);
+    }
+
+    /* ---------- accueil ---------- */
+    function renderTags() {
+      Array.prototype.forEach.call(document.querySelectorAll('#tags button'), function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-target') === S.target); });
+    }
+    function renderHome() {
+      var blk = $('blk'); blk.innerHTML = '';
+      var biz = S.target === 'biz';
+      blk.appendChild(el('div', 'section-label', biz ? ANG.biz_label : ANG.bildung_label));
+      blk.appendChild(el('h2', '', biz ? ANG.biz_title : ANG.title));
+      blk.appendChild(el('p', 'sub', ANG.pick));
+      var pc = el('div', 'pcards');
+      var keys = biz ? ['epu', 'kmu', 'gruender'] : ['schulen', 'eltern'];
+      keys.forEach(function (k) {
+        var lab = biz ? PROFILES[k].label : BILDUNG[k].card, sub = biz ? PROFILES[k].sub : BILDUNG[k].sub;
+        var b = btn('pcard', '<strong>' + lab + '</strong><span>' + sub + '</span>', function () { goProfile(k, b); });
+        pc.appendChild(b);
+      });
+      blk.appendChild(pc);
+      blk.appendChild(el('p', 'hint', ANG.hint));
+    }
+    /* clic tri-2 : la carte se colore, l'accueil s'efface (500 ms), la page entre (600 ms) */
+    function goProfile(k, card) {
+      if (going) return; going = true;
+      card.classList.add('sel');
+      $('home').classList.add('leaving');
+      setTimeout(function () { going = false; location.hash = '#/' + k; }, 550);
+    }
+
+    /* ---------- témoignages (balisage statique, on ne fait que piloter) ---------- */
+    function goTesti(i, instant) {
+      var tr = $('ttrack'), n = tr.children.length;
+      S.testi = (i + n) % n;
+      tr.style.transition = instant ? 'none' : 'transform ' + DUR + 'ms ' + EASE;
+      tr.style.transform = 'translateX(' + (-100 * S.testi) + '%)';
+      Array.prototype.forEach.call(tr.children, function (sl, j) { sl.inert = (j !== S.testi); sl.setAttribute('aria-hidden', j !== S.testi); });
+      Array.prototype.forEach.call($('tdots').children, function (d, j) { if (j === S.testi) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+    }
+
+    /* ---------- page profil (Unternehmer:innen) : construite UNE fois ---------- */
+    function formSection(id, withTitle) {
+      var cs = el('section', 'contact-section'); cs.id = id;
+      cs.innerHTML = '<div class="wrap contact-grid"><div class="contact-info"><div class="section-label">' + D.contact.label + '</div><h2>' + withTitle + '</h2><p class="contact-reassurance">' + D.contact.reassurance + '</p><div class="pre" id="p-pre" hidden>' + UI.form_prefilled + '</div></div>' +
+        '<form><div class="field"><label for="p-name">' + FORM.name + '</label><input type="text" id="p-name"></div>' +
+        '<div class="field"><label for="p-mail">' + FORM.email + '</label><input type="email" id="p-mail"></div>' +
+        '<div class="field"><label for="p-msg">' + FORM.message + '</label><textarea id="p-msg"></textarea></div>' +
+        '<button type="button" class="btn btn-primary submit-btn">' + FORM.submit + '</button></form></div>';
+      return cs;
+    }
+    function buildPage(k) {
+      var pg = $('ppage'); pg.innerHTML = '';
+      var Pf = PROFILES[k];
+      var head = el('section', 'phead'), w = el('div', 'wrap');
+      var back = el('a', 'back', ANG.back); back.href = '#referenzen'; w.appendChild(back);
+      w.appendChild(el('div', 'section-label', 'Für ' + Pf.short));
+      w.appendChild(el('h1', '', ANG.biz_title));
+      w.appendChild(el('p', 'aud', Pf.intro.replace(/:$/, '.')));
+      head.appendChild(w); pg.appendChild(head);
+
+      var sec = el('section', 'pstage'), w2 = el('div', 'wrap');
+      var stage = el('div', 'stage'); stage.id = 'stage';
+      var steps = el('div', 'steps'), stepBtns = [];
+      [UI.step1, UI.step2, UI.step3].forEach(function (n, i) { var b = btn('', n, function () { setStep(i); }); stepBtns.push(b); steps.appendChild(b); });
+      stage.appendChild(steps);
+      var vp = el('div', 'vp'), tr = el('div', 'track'), slides = [el('div', 'slide'), el('div', 'slide'), el('div', 'slide')];
+      slides.forEach(function (s) { tr.appendChild(s); });
+      vp.appendChild(tr); stage.appendChild(vp); w2.appendChild(stage);
+      var sum = el('div', 'sum'); sum.id = 'sum'; w2.appendChild(sum);
+      sec.appendChild(w2); pg.appendChild(sec);
+      pg.appendChild(formSection('pform', UI.form_title));
+
+      P = { head: head, stage: stage, stepBtns: stepBtns, vp: vp, tr: tr, slides: slides, sum: sum };
+      tr.style.transform = 'translateX(' + (-100 * S.step) + '%)';
+      updatePage();
+    }
+    function nav(prev, next) {
+      var r = el('div', 'navrow');
+      r.appendChild(prev ? btn('btn btn-secondary', '← ' + prev, function () { setStep(S.step - 1); }) : el('span'));
+      if (next) r.appendChild(btn('btn btn-primary', next + ' →', function () { setStep(S.step + 1); }));
+      return r;
+    }
+    /* contenu mis à jour SANS toucher au rail : pas de glissement sur un simple clic */
+    function updatePage() {
+      if (!P) return;
+      var Pf = PROFILES[S.profile];
+
+      var s0 = P.slides[0]; s0.innerHTML = '';
+      s0.appendChild(el('h3', '', UI.q_title));
+      s0.appendChild(el('p', 'sub', UI.q_sub));
+      s0.appendChild(el('p', 'intro', Pf.intro));
+      var tk = el('div', 'ticks');
+      Pf.bullets.forEach(function (bl, i) {
+        var key = S.profile + i, on = !!S.ticks[key];
+        var b = btn('tick', '<span>' + bl.text + (on ? '<span class="to">' + T(UI.q_mark, bl.theme) + '</span>' : '') + '</span>', function () {
+          S.ticks[key] = !on; var need = {}; Pf.bullets.forEach(function (x, j) { if (S.ticks[S.profile + j]) need[x.theme] = true; }); S.themes = need; updatePage();
+        });
+        b.setAttribute('aria-pressed', on); tk.appendChild(b);
+      });
+      s0.appendChild(tk); s0.appendChild(nav(null, UI.next_themes));
+
+      var s1 = P.slides[1]; s1.innerHTML = '';
+      s1.appendChild(el('h3', '', UI.t_title));
+      s1.appendChild(el('p', 'sub', UI.t_sub));
+      var rel = THEMES.filter(function (t) { return t.for.indexOf(S.profile) !== -1 || S.themes[t.id]; });
+      var rest = THEMES.filter(function (t) { return rel.indexOf(t) === -1; });
+      var g = el('div', 'grid2');
+      rel.concat(S.more ? rest : []).forEach(function (t) {
+        var on = !!S.themes[t.id];
+        var b = btn('theme', '<span class="check">' + (on ? UI.chosen : UI.choose) + '</span><span class="num">' + UI.theme_word + ' ' + t.id + '</span><h4>' + t.title + '</h4><p>' + t.desc + '</p><div class="for">' + UI.for_word + ' ' + t.for.map(function (x) { return FOR_LABEL[x]; }).join(' · ') + '</div>', function () { S.themes[t.id] = !on; updatePage(); });
+        b.setAttribute('aria-pressed', on); g.appendChild(b);
+      });
+      s1.appendChild(g);
+      if (rest.length) s1.appendChild(btn('more', S.more ? UI.more_hide : T(UI.more_show, rest.length), function () { S.more = !S.more; updatePage(); }));
+      s1.appendChild(nav(UI.prev, UI.next_formats));
+
+      var s2 = P.slides[2]; s2.innerHTML = '';
+      s2.appendChild(el('h3', '', UI.f_title));
+      s2.appendChild(el('p', 'sub', UI.f_sub));
+      var g2 = el('div', 'grid4');
+      FORMATS.forEach(function (f) {
+        var on = !!S.fmts[f.id];
+        var b = btn('fmt', '<span class="check">' + (on ? UI.chosen : UI.choose) + '</span><span class="letter" aria-hidden="true">' + f.id + '</span><h4>' + f.name + '</h4><p class="meta">' + f.meta + '</p><p>' + f.line + '</p>', function () { S.fmts[f.id] = !on; updatePage(); });
+        b.setAttribute('aria-pressed', on); g2.appendChild(b);
+      });
+      s2.appendChild(g2);
+      var r = el('div', 'navrow'); r.appendChild(btn('btn btn-secondary', '← ' + UI.prev, function () { setStep(1); }));
+      r.appendChild(btn('btn btn-primary', UI.next_sum, function () { scrollToEl($('sum')); })); s2.appendChild(r);
+
+      P.slides.forEach(function (s, i) { s.inert = (i !== S.step); s.setAttribute('aria-hidden', i !== S.step); });
+      P.stepBtns.forEach(function (b, i) { b.className = i < S.step ? 'done' : ''; if (i === S.step) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+      P.vp.style.transition = 'none';
+      P.vp.style.height = P.slides[S.step].offsetHeight + 'px';
+
+      var t = selThemes(), f = selFmts();
+      P.sum.innerHTML = '';
+      P.sum.appendChild(el('h3', '', UI.sum_title));
+      var row = el('div', 'row'), c1 = el('div', 'col'), c2 = el('div', 'col');
+      c1.appendChild(el('p', '', '<strong>' + UI.sum_profile + '</strong> ' + Pf.label));
+      c1.appendChild(el('p', '', '<strong>' + UI.sum_themes + '</strong> ' + (t.length ? t.map(function (x) { return x.title; }).join(' · ') : '<span class="muted">' + UI.none_themes + '</span>')));
+      c1.appendChild(el('p', '', '<strong>' + UI.sum_formats + '</strong> ' + (f.length ? f.map(function (x) { return x.id + ' — ' + x.name; }).join(' · ') : '<span class="muted">' + UI.none_formats + '</span>')));
+      var cta = el('div', 'cta'); cta.appendChild(btn('btn btn-primary', UI.sum_cta, function () { prefill(); }));
+      cta.appendChild(el('span', 'small', UI.sum_note)); c1.appendChild(cta);
+      c2.appendChild(el('div', 'quote', '«' + UI.excerpt_quote + '»<small>' + UI.excerpt_by + '</small>'));
+      row.appendChild(c1); row.appendChild(c2); P.sum.appendChild(row);
+      renderMbar();
+    }
+    /* changement d'étape : SEUL endroit où le rail glisse ; la page se recentre sur l'en-tête */
+    function setStep(i) {
+      S.step = i;
+      var h = P.slides[i].offsetHeight;
+      P.tr.style.transition = 'transform ' + DUR + 'ms ' + EASE;
+      P.vp.style.transition = 'height ' + DUR + 'ms ' + EASE;
+      P.tr.style.transform = 'translateX(' + (-100 * i) + '%)';
+      P.vp.style.height = h + 'px';
+      P.slides.forEach(function (s, j) { s.inert = (j !== i); s.setAttribute('aria-hidden', j !== i); });
+      P.stepBtns.forEach(function (b, j) { b.className = j < i ? 'done' : ''; if (j === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+      scrollToEl(P.head);
+    }
+    function renderMbar() {
+      var m = $('mbar'); m.innerHTML = '';
+      if (!P || $('ppage').hidden) { m.className = 'mbar'; document.body.classList.remove('has-mbar'); return; }
+      m.className = 'mbar on'; document.body.classList.add('has-mbar');
+      var n = selThemes().length, f = selFmts().length;
+      m.appendChild(el('span', '', '<strong>' + UI.mbar_label + '</strong> ' + n + ' ' + (n === 1 ? UI.mbar_theme_one : UI.mbar_theme_many) + ' · ' + (f ? f + ' ' + (f === 1 ? UI.mbar_format_one : UI.mbar_format_many) : UI.mbar_format_open)));
+      m.appendChild(btn('btn btn-primary', UI.mbar_btn, function () { scrollToEl($('sum')); }));
+    }
+    function prefill() {
+      $('p-msg').value = ctxText() + '\n\n';
+      $('p-pre').hidden = false;
+      scrollToEl($('pform'));
+    }
+
+    /* ---------- page Bildung (contenu repris tel quel de ref1 / ref2) ---------- */
+    function buildInfo(k) {
+      var d = BILDUNG[k], pg = $('ppage'); pg.innerHTML = ''; P = null;
+      var sec = el('section', 'pinfo'), w = el('div', 'wrap');
+      var back = el('a', 'back', ANG.back); back.href = '#referenzen'; w.appendChild(back);
+      w.appendChild(el('div', 'section-label', d.num));
+      var r = el('div', 'ref');
+      r.appendChild(el('div', '', '<h1>' + d.title + '</h1><p>' + d.text + '</p><p class="bonus">' + d.bonus + '</p>'));
+      r.appendChild(el('span', 'ref-visual', d.visual_label + '<span class="visit-note">' + d.note + '</span>'));
+      w.appendChild(r); sec.appendChild(w); pg.appendChild(sec);
+      pg.appendChild(formSection('pform', D.contact.title));
+    }
+
+    /* ---------- routage par # ---------- */
+    function route(initial) {
+      var m = /^#\/(epu|kmu|gruender|schulen|eltern)$/.exec(location.hash);
+      var home = $('home'), pp = $('ppage');
+      home.classList.remove('leaving'); home.classList.remove('entering'); pp.classList.remove('entering');
+      if (m) {
+        var k = m[1], biz = (k === 'epu' || k === 'kmu' || k === 'gruender');
+        S.target = biz ? 'biz' : 'bildung';
+        if (biz) {
+          if (S.profile !== k) { S.profile = k; S.ticks = {}; S.themes = {}; S.fmts = {}; S.more = false; S.step = 0; }
+          home.hidden = true; pp.hidden = false; buildPage(k);
+        } else { home.hidden = true; pp.hidden = false; buildInfo(k); renderMbar(); }
+        window.scrollTo(0, 0); void pp.offsetWidth; pp.classList.add('entering');
+      } else {
+        home.hidden = false; pp.hidden = true; P = null; renderHome(); renderTags(); renderMbar(); if (initial !== true) { void home.offsetWidth; home.classList.add('entering'); }
+        var id = location.hash.slice(1); var t = id && document.getElementById(id);
+        if (t) scrollToEl(t, true); else window.scrollTo(0, 0);
+      }
+    }
+
+    /* ---------- init ---------- */
+    var navToggle = $('navToggle'), mobileMenu = $('mobileMenu');
+    navToggle.addEventListener('click', function () {
+      var isOpen = mobileMenu.classList.toggle('open');
+      navToggle.classList.toggle('open', isOpen);
+      navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      setNavVar();
+    });
+    Array.prototype.forEach.call(mobileMenu.querySelectorAll('a'), function (a) {
+      a.addEventListener('click', function () { mobileMenu.classList.remove('open'); navToggle.classList.remove('open'); navToggle.setAttribute('aria-expanded', 'false'); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#tags button'), function (b) {
+      b.addEventListener('click', function () { S.target = b.getAttribute('data-target'); renderHome(); renderTags(); scrollToEl($('referenzen')); });
+    });
+    $('tprev').addEventListener('click', function () { goTesti(S.testi - 1); });
+    $('tnext').addEventListener('click', function () { goTesti(S.testi + 1); });
+    Array.prototype.forEach.call($('tdots').children, function (d, i) { d.addEventListener('click', function () { goTesti(i); }); });
+
+    window.addEventListener('hashchange', function () { route(false); });
+    /* liens d'ancre : défilement 1100 ms ; depuis une page profil, le changement de # ramène à l'accueil */
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a) return;
+      var h = a.getAttribute('href'); if (h.indexOf('#/') === 0) return;
+      if (!$('ppage').hidden) return;
+      var id = h.slice(1);
+      var t = (id === '' || id === 'top') ? document.body : document.getElementById(id);
+      if (!t) return;
       e.preventDefault();
-      const offset = target === document.body ? 0 : target.getBoundingClientRect().top + window.scrollY - 70;
-      smoothScrollTo(offset, 1100);
+      if (t === document.body) smoothScrollTo(0, DUR); else scrollToEl(t);
     });
-  });
-
-  function showSlide(i) {
-    document.querySelectorAll('[id^="t-slide-"]').forEach((el, n) => {
-      el.style.display = (n === i) ? 'block' : 'none';
-    });
-    document.querySelectorAll('.t-dot').forEach((d, idx) => { d.classList.toggle('active', idx === i); });
-  }
+    window.addEventListener('resize', setNavVar);
+    setNavVar();
+    goTesti(0, true);
+    renderTags(); renderHome();
+    route(true);
+  })();
 </script>
 
 </body>
