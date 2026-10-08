@@ -16,15 +16,22 @@ hero:
   cta: "Kontakt aufnehmen"
 
 tags:
-  tag1: "Schulen"
-  tag2: "Schüler:innen"
-  tag3: "KMU & Selbstständige"
+  bildung: "Bildung"
+  biz: "Unternehmer:innen"
 
 portrait: "Porträt<br>folgt in Kürze"
 
 angebot:
   label: "Mein Angebot"
   title: "Wo stehen Sie gerade mit KI?"
+  pick: "Ich bin …"
+  hint: "Wählen Sie Ihr Profil — dann zeigen wir Ihnen, was zu Ihnen passt."
+  bildung_label: "Für Bildung"
+  biz_label: "Für Unternehmer:innen"
+  biz_title: "KI, die in Ihrem Arbeitsalltag ankommt"
+  back: "← Zur Startseite (anderes Profil wählen)"
+  card_schulen: "Schulen"
+  card_eltern: "Eltern & Schüler:innen"
 
 ref1:
   num: "Für Schulen"
@@ -89,8 +96,8 @@ contact:
   reassurance: "Antwort innerhalb von 48 Stunden. Das erste Gespräch (20 Minuten) ist unverbindlich und kostenlos."
   email_label: "E-Mail"
   linkedin_label: "LinkedIn"
-  email: "à préciser"
-  linkedin: "à préciser"
+  email: "gilles.forestier@icloud.com"
+  linkedin: "https://www.linkedin.com/in/gilles-forestier-04261b1"
 
 form:
   name: "Name"
@@ -110,9 +117,134 @@ footer:
   motto: "Ermöglichen, Verbinden, Erkunden."
   impressum: "Impressum"
   impressum_url: "/impressum"
-  email: mailto: gilles.forestier@icloud.com
-  linkedin: https://www.linkedin.com/in/gilles-forestier-04261b1
+  email: "gilles.forestier@icloud.com"
+  linkedin: "https://www.linkedin.com/in/gilles-forestier-04261b1"
   copyright: "© Gilles Forestier 2026"
+
+wizard:
+  step1: "1 · Fragen"
+  step2: "2 · Themen"
+  step3: "3 · Formate"
+  q_title: "Was trifft auf Sie zu?"
+  q_sub: "Wählen Sie aus, was Sie beschäftigt — die passenden Themen werden vorgemerkt."
+  q_mark: "→ Thema {n} vorgemerkt"
+  t_title: "Passende Themen"
+  t_sub: "Vorgemerkt nach Ihren Antworten — Mehrfachauswahl möglich."
+  theme_word: "Thema"
+  for_word: "Für:"
+  chosen: "✓ gewählt"
+  choose: "+ wählen"
+  more_show: "Weitere Themen anzeigen ({n})"
+  more_hide: "Weitere Themen ausblenden"
+  f_title: "Formate"
+  f_sub: "Mehrfachauswahl möglich. Jedes Thema lässt sich in jedem Format buchen — oder Sie klären es im Erstgespräch."
+  next_themes: "Weiter: Themen"
+  next_formats: "Weiter: Formate"
+  next_sum: "Weiter: Ihre Auswahl ↓"
+  prev: "Zurück"
+  sum_title: "Ihre Auswahl"
+  sum_profile: "Profil:"
+  sum_themes: "Themen:"
+  sum_formats: "Formate:"
+  none_themes: "noch keines gewählt"
+  none_formats: "offen — im Erstgespräch klären"
+  sum_cta: "Kontakt aufnehmen"
+  sum_note: "Antwort innerhalb von 48 Stunden · Erstgespräch 20 Min., kostenlos"
+  excerpt_quote: "Man lernt nicht nur, einen Prompt zu schreiben — man lernt vor allem, die KI zu hinterfragen und sie mit Abstand zu nutzen."
+  excerpt_by: "Agathe G., Coach — Workshop A.I., Ai, Aie! (Mai 2026)"
+  form_title: "Ihre Anfrage"
+  form_prefilled: "Vorausgefüllt aus Ihrer Auswahl — Sie können alles anpassen."
+  ctx_profile: "Profil:"
+  ctx_themes: "Themen:"
+  ctx_formats: "Formate:"
+  mbar_label: "Auswahl:"
+  mbar_theme_one: "Thema"
+  mbar_theme_many: "Themen"
+  mbar_format_one: "Format"
+  mbar_format_many: "Formate"
+  mbar_format_open: "Format offen"
+  mbar_btn: "Anfrage →"
+  prev_testimonial: "Vorheriges Testimonial"
+  next_testimonial: "Nächstes Testimonial"
+
+for_labels:
+  epu: "Selbstständige"
+  kmu: "KMU"
+  gruender: "Gründer:innen"
+
+profiles:
+  epu:
+    label: "Selbstständig / EPU"
+    short: "Selbstständige"
+    sub: "Allein im Geschäft"
+    intro: "Sie sind allein im Geschäft — und KI kommt trotzdem auf Sie zu:"
+    bullets:
+      - text: "Der EU AI Act (Art. 4) verlangt auch von Ihnen KI-Kompetenz — aber wie setzen Sie das um?"
+        theme: 1
+      - text: "Keine Zeit, KI selbst zu erkunden — und die Sorge, Chancen zu verpassen."
+        theme: 2
+      - text: "Die Angebote, die Sie finden, sind zu technisch oder zu allgemein."
+        theme: 2
+  kmu:
+    label: "KMU"
+    short: "KMU"
+    sub: "Mit Team und Mitarbeitenden"
+    intro: "Ihr Team nutzt KI vielleicht schon — die Frage ist, wie:"
+    bullets:
+      - text: "Der EU AI Act verlangt KI-Kompetenz von Ihren Mitarbeitenden."
+        theme: 1
+      - text: "Jeder nutzt KI auf eigene Faust — ohne gemeinsame Methode, Ethik und DSGVO bleiben offen."
+        theme: 3
+      - text: "Ohne klare Anwendungsfälle entgehen Ihnen Chancen."
+        theme: 2
+  gruender:
+    label: "Gründer:in"
+    short: "Gründer:innen"
+    sub: "Ich baue gerade auf"
+    intro: "Sie bauen Ihr Unternehmen auf — und Ihre Zeit ist knapp:"
+    bullets:
+      - text: "Ihr Kalender ist voll — keine Zeit, KI nebenbei zu lernen."
+        theme: 2
+      - text: "Sie brauchen schnell verlässliche Informationen zu Markt und Konkurrenz."
+        theme: 4
+      - text: "Ihr Businessplan soll Ihrer bleiben — nicht ein generischer KI-Text."
+        theme: 4
+
+themes:
+  - id: 1
+    title: "KI-Pflicht nach dem AI Act"
+    for: ["epu", "kmu"]
+    desc: "Was Art. 4 des EU AI Act von Ihnen verlangt — und ein konkreter Aktionsplan, um die Pflicht zur KI-Kompetenz in Ihrem Betrieb zu erfüllen. Ohne Paragrafendschungel."
+  - id: 2
+    title: "Anwendungsfälle aus Ihrem Alltag"
+    for: ["epu", "kmu", "gruender"]
+    desc: "Wir arbeiten an Ihren echten Aufgaben statt an allgemeinen Beispielen: Sie finden heraus, wo KI Ihnen Zeit spart, und setzen die ersten Anwendungen sofort um."
+  - id: 3
+    title: "Teamleitplanken: Ethik und DSGVO"
+    for: ["kmu"]
+    desc: "Vom individuellen ChatGPT-Gebrauch zu einer gemeinsamen Methode: klare Regeln zu Ethik und Datenschutz, damit Ihr Team KI sicher und einheitlich nutzt."
+  - id: 4
+    title: "KI im Businessplan"
+    for: ["gruender"]
+    desc: "KI beschleunigt Recherche und Struktur Ihres Businessplans — Marktinformationen schneller finden, Abschnitte klarer gliedern. Originalität und Sorgfalt bleiben Ihre."
+
+formats:
+  - id: "A"
+    name: "Lernreise"
+    meta: "5 × 2 Stunden · Gruppe · über 5 Wochen (oder 5 Tage)"
+    line: "Schritt für Schritt, mit Zeit zum Ausprobieren zwischen den Terminen."
+  - id: "B"
+    name: "Intensivtag"
+    meta: "1 Tag oder 2 Halbtage · Gruppe · 8 Stunden"
+    line: "Ein Thema in der Tiefe — an einem Stück."
+  - id: "C"
+    name: "Kompakt"
+    meta: "Halbtag · Gruppe · 3–4 Stunden"
+    line: "Der schnelle Einstieg, mit ersten Ergebnissen am selben Tag."
+  - id: "D"
+    name: "Einzelbegleitung"
+    meta: "Individuell · nach Stunden"
+    line: "Ihre Fragen, Ihre Unterlagen, Ihr Tempo."
 ---
 
 Ce fichier contient tous les textes affichés sur le site.
