@@ -9,6 +9,8 @@ const D = {
     eltern: { card: t.angebot.card_eltern, sub: t.ref2.title, num: t.ref2.num, title: t.ref2.title, text: t.ref2.text, bonus: t.ref2.bonus, visual_label: t.ref2.visual_label, note: t.ref2.note }
   }
 };
+const triptychHtml = '— ' + t.about.triptych.split(' · ').join(' <span class="sep">·</span> ');
+const mottoHtml = t.footer.motto.replace(/\.$/, '<span class="sep">.</span>');
 const dataJson = JSON.stringify(D).replace(/</g, '\\u003c');
 ---
 <!DOCTYPE html>
@@ -413,15 +415,92 @@ const dataJson = JSON.stringify(D).replace(/</g, '\\u003c');
     .mbar .btn { padding: 10px 18px; }
     body.has-mbar footer { padding-bottom: 110px; }
   }
+
+  /* ================= THÈME MARINE (palette du modèle « Couleur Marine ») ================= */
+  body.marine {
+    --violet: #1F3A5F; --rose: #1D4ED8; --gold: #2563EB;
+    --violet-tint: #F3F5F9; --rose-tint: #E4EDFA; --gold-tint: #E4EDFA;
+    --line: #D5DDE8; --ink: #1B2A41; --muted: #5B6475;
+    --blue: #2563EB; --navy-deep: #14263F;
+    --accent: #AC5C39; --accent-lt: #E68A62;
+  }
+  /* boutons et textes secondaires */
+  body.marine .btn-primary { background: var(--blue); }
+  body.marine .btn-primary:hover { background: #1D4FC4; }
+  body.marine .hero .audience, body.marine .phead .aud, body.marine .ref p, body.marine .contact-info p { color: #3B475A; }
+  body.marine .hero .identity { color: #5B6475; }
+  body.marine .about-inner p { color: #26364D; }
+  /* navigation */
+  body.marine .nav-name:hover { color: #fff; border-color: #fff; }
+  body.marine .nav-links a::after { background: var(--accent-lt); }
+  body.marine .nav-contact { color: #fff; border: 1px solid rgba(255,255,255,.7); padding: 6px 14px; border-radius: 2px; }
+  body.marine .nav-contact:hover { background: #fff; color: var(--violet); }
+  /* hero : tags carrés marine, bouton bleu, portrait arrondi */
+  body.marine .hero { background: #fff; padding: 72px 0 80px; }
+  body.marine .hero-inner { grid-template-columns: 1fr 340px; gap: 48px; }
+  body.marine .hero h1 { font-size: clamp(38px, 4.3vw, 56px); margin-bottom: 18px; }
+  body.marine .hero-tags button, body.marine .hero-tags button[aria-pressed="true"] { border: 2px solid var(--violet); color: var(--violet); background: #fff; border-radius: 3px; font-size: 16px; padding: 13px 26px; min-height: 52px; }
+  body.marine .hero-tags button:hover { background: var(--violet); color: #fff; }
+  body.marine .hero-tags button[aria-pressed="true"] { background: #E4EDFA; font-weight: 700; }
+  body.marine .hero-tags button[aria-pressed="true"]:hover { background: var(--violet); color: #fff; }
+  body.marine .hero .btn-primary { font-size: 18px; padding: 18px 48px; }
+  body.marine .portrait-frame { border-radius: 16px; background: #F3F5F9; border: 1px solid #C9D2E0; }
+  body.marine .portrait-frame::before { display: none; }
+  body.marine .portrait-label { color: #7a8294; }
+  @media (max-width: 860px) {
+    body.marine .hero-inner { grid-template-columns: 1fr; gap: 32px; }
+    body.marine .hero { padding: 52px 0 60px; }
+    body.marine .portrait-frame { max-width: 280px; margin: 0 auto; width: 100%; }
+    body.marine .hero-tags button, body.marine .hero-tags button[aria-pressed="true"] { padding: 11px 18px; font-size: 15px; min-height: 48px; }
+    body.marine .hero .btn-primary { padding: 16px 28px; font-size: 16px; }
+  }
+  /* cartes de tri */
+  body.marine .pcard { border-color: #BFD0EE; }
+  body.marine .pcard:hover { border-color: var(--gold); }
+  body.marine .pcard.sel { border-color: var(--gold); background: #fff; }
+
+  /* ---- CONTRASTE : alternance blanc / bleu pâle / marine ---- */
+  body.marine .hero { background: #fff; }
+  body.marine .gold-section { background: #E4EDFA; }
+  body.marine .about-section { background: #fff; }
+  body.marine #testimonials { background: var(--violet); color: #fff; }
+  body.marine .contact-section { background: #E4EDFA; }
+  body.marine #pform { background: #fff; }
+  body.marine footer { background: var(--navy-deep); border-top: 0; }
+  /* bandeau témoignages (fond marine) */
+  body.marine #testimonials .section-label { color: #A9C4F5; border-bottom-color: #A9C4F5; }
+  body.marine #testimonials h2, body.marine #testimonials .tq, body.marine #testimonials strong { color: #fff; }
+  body.marine #testimonials .tq small, body.marine #testimonials .muted { color: #B9C7DB; }
+  body.marine #testimonials .tarrow { color: #fff; }
+  body.marine #testimonials .tarrow:hover { color: var(--accent-lt); }
+  body.marine #testimonials .dot { border-color: #fff; background: transparent; }
+  body.marine #testimonials .dot[aria-current="true"] { background: var(--accent-lt); border-color: var(--accent-lt); }
+  /* pied de page marine */
+  body.marine .footer-back-top { color: #fff; }
+  body.marine .footer-back-top:hover { color: #fff; border-color: #fff; }
+  body.marine .footer-motto { color: #A9C4F5; }
+  body.marine .footer-meta, body.marine .footer-meta a { color: #DCE6F5; }
+  body.marine .footer-meta a { text-decoration: underline; }
+
+  /* ================= TOUCHE CRÉATIVE : le point coloré ================= */
+  /* base : point du logo, séparateurs du triptyque, point actif du carrousel */
+  body.marine .nav-name .pt, body.marine .footer-back-top .pt { display: inline-block; width: .26em; height: .26em; border-radius: 50%; background: var(--accent-lt); margin-left: .1em; }
+  body.marine .about-triptych .sep { color: var(--accent); font-weight: 700; padding: 0 .3em; font-style: normal; }
+  body.marine .footer-motto .sep { color: var(--accent-lt); font-style: normal; font-weight: 700; }
+  /* B : base + point devant chaque titre de section + états sélectionnés en accent */
+  body.acc-b .section-label::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 10px; position: relative; top: -1px; }
+  body.acc-b #testimonials .section-label::before { background: var(--accent-lt); }
+  body.acc-b .pcard.sel, body.acc-b .tick[aria-pressed="true"], body.acc-b .theme[aria-pressed="true"], body.acc-b .fmt[aria-pressed="true"] { border-color: var(--accent); }
+  body.acc-b .pcard.sel strong::after { color: var(--accent); }
 </style>
 </head>
-<body id="top">
+<body id="top" class="marine acc-b">
 
 <a href="#main" class="skip-link">{t.skip}</a>
 
 <header class="site-nav">
   <div class="nav-inner">
-    <a href="#top" class="nav-name">Gilles F.</a>
+    <a href="#top" class="nav-name" aria-label="Gilles F.">Gilles F<span class="pt" aria-hidden="true"></span></a>
     <nav>
       <ul class="nav-links">
         <li><a href="#referenzen">{t.nav.angebot}</a></li>
@@ -480,7 +559,7 @@ const dataJson = JSON.stringify(D).replace(/</g, '\\u003c');
       <p>{t.about.p1}</p>
       <p>{t.about.p2}</p>
       <p>{t.about.p3}</p>
-      <p class="about-triptych">— {t.about.triptych}</p>
+      <p class="about-triptych" set:html={triptychHtml}></p>
       <div class="about-cta">
         <a href={t.about.linkedin_url} class="btn btn-secondary">{t.about.cta}</a>
       </div>
@@ -560,8 +639,8 @@ const dataJson = JSON.stringify(D).replace(/</g, '\\u003c');
 <footer>
   <div class="wrap footer-inner">
     <div class="footer-brand">
-      <a href="#top" class="footer-back-top" aria-label="Nach oben scrollen">Gilles F.</a>
-      <div class="footer-motto">{t.footer.motto}</div>
+      <a href="#top" class="footer-back-top" aria-label="Nach oben scrollen">Gilles F<span class="pt" aria-hidden="true"></span></a>
+      <div class="footer-motto" set:html={mottoHtml}></div>
     </div>
     <div class="footer-meta">
       <div>E-Mail: <a href={`mailto:${t.footer.email}`}>{t.footer.email}</a></div>
